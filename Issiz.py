@@ -1,40 +1,44 @@
-from Insan import Insan
-class Issiz(Insan):
-    def __init__(self, ad, soyad, tecrube):
-        super().__init__(ad, soyad)
-        self.__tecrube = tecrube
-    
-    def get_tecrube(self):
-        return self.__tecrube
-    def set_tecrube(self,yeni_tecrube):
-        self.__tecrube = yeni_tecrube
-    
-    def statu_bul(self):
-        try:
-            max_deger = 0
-            uygun_statu = ""
+from Insan import Insan   # Insan sinifindan insan modülünü ice aktarma
 
-            for statu,yil in self.__tecrube.items():
-                if statu == "mavi yaka":
-                    etki = yil*0.2
-                elif statu == "beyaz yaka":
-                    etki = yil*0.35
-                elif statu == "yonetici":
-                    etki = yil*0.45
-                else:
-                    raise ValueError("Geçerli olmayan statu:"+statu)
-                
-                if etki > max_deger:
-                    max_deger= etki
-                    uygun_statu = statu
-            return uygun_statu
-        except Exception as e:
-            print("Hata:",e)
-    
-    def __str__(self):
-        ad_soyad = f"Ad: {self.get_ad()}\nSoyad: {self.get_soyad()}"
+class Issiz(Insan):
+    def __init__(self, tc_no, ad, soyad, yas, cinsiyet, uyruk, tecrube):
+        super().__init__(tc_no, ad, soyad, yas, cinsiyet, uyruk)
+        self.__tecrube = tecrube   #Issizin tecrube degerini atama
+
+    def get_tecrube(self):
+        return self.__tecrube   # Issizin tecrube degerini getirme
+
+    def set_tecrube(self, tecrube):
+        self.__tecrube = tecrube      #Tecrube degerini guncelleme
+
+    def statu_bul(self):     # İssizi uygun statuye atama islemi için fonksiyon olusturma
         try:
-            uygun_statu = self.statu_bul()
-            return f"{ad_soyad}\nEn Uygun Statü: {uygun_statu}"
+            etki_oranlari = {
+                "mavi yaka": 0.2,
+                "beyaz yaka": 0.35,
+                "yönetici": 0.45
+            }
+
+            max_etki = 0
+            en_uygun_statu = ""
+
+            for statu, yil in self.__tecrube.items():    # Issizin  tecrube degeri ve statusunun etki orani ile carpma islemi
+                etki = {}
+                etki["mavi yaka"] = yil * etki_oranlari["mavi yaka"]
+                etki["beyaz yaka"] = yil * etki_oranlari["beyaz yaka"]
+                etki["yönetici"] = yil * etki_oranlari["yönetici"]
+
+                if etki[statu] == max_etki :    # Eşitlik durumunda yönetici statüsünü atayalım
+                    en_uygun_statu = "yönetici"
+                if etki[statu] > max_etki:
+                    max_etki = etki[statu]
+                    en_uygun_statu = statu
+                
+            return en_uygun_statu    # Uygun statu degerini döndürme
         except Exception as e:
-            return ad_soyad + "\nHata: " + str(e)
+            return f"Hata: {str(e)}"
+
+    def __str__(self):     # Gerekli degiskenleri yazdirma
+        en_uygun_statu = self.statu_bul()
+        return f"Ad: {self.get_ad()}\nSoyad: {self.get_soyad()}\nEn Uygun Statü: {en_uygun_statu}"
+
