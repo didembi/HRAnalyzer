@@ -1,56 +1,56 @@
-from Insan import Insan
+from Insan import Insan    # Insan sinifindan insan modülünü ice aktarma
 class Calisan(Insan):
-    def __init__(self,ad,soyad,sektor,tecrube,maas):
-        super().__init__( ad, soyad,)
-        self.__sektor = self.validate_sektor(sektor)
+    def __init__(self, tc_no, ad, soyad, yas, cinsiyet, uyruk, sektor, tecrube, maas):
+        super().__init__(tc_no, ad, soyad, yas, cinsiyet, uyruk)
+        self.__sektor = self.kontrol_Sektor(sektor)  # Calisanin sektorunu kontrol için fonksiyonu kullanaarak sektor atama
         self.__tecrube = tecrube
-        self.__maas = maas
-        
+        self.__maas = maas       #Calisanin tecrube ve maasini atama
+    
     def get_sektor(self):
-        return self.__sektor
-    def set_sektor(self,sektor):
-        self.__sektor = self.validate_sektor(sektor)
+        return self.__sektor    # Calisanin sektorunu getirme
+    def set_sektor(self, sektor):
+        self.__sektor = self.kontrol_Sektor(sektor)   # Calisanin sektorunu kontrol etmek icin sektoru guncelleme
 
     def get_tecrube(self):
-        return self.__tecrube
-    def set_tecrube(self,tecrube):
-        self.__tecrube = tecrube
-    
+        return self.__tecrube    # Calisanin tecrube degerini getirme
+    def set_tecrube(self, tecrube):
+        self.__tecrube = tecrube     #Tecrube degerini guncelleme
+
     def get_maas(self):
-        return self.__maas
-    def set_maas(self,yeni_maas):
-        self.__maas = yeni_maas
+        return self.__maas    #Calisanin maasini getirme
 
-    def validate_sektor(self, sektor):
-        valid_sektorler = ["teknoloji", "muhasebe", "inşaat", "diğer"]
-        if sektor in valid_sektorler:
-            return sektor
+    def kontrol_Sektor(self, sektor):
+        kontrol_sektorler = ["teknoloji", "muhasebe", "inşaat", "diğer"]
+        if sektor in kontrol_sektorler:
+            return sektor    # Gecerli sektor degerini döndürme
         else:
-            raise ValueError("Sektor degeri gecersiz!")    
-        
-    def zam_hakki(self):
+            raise ValueError("Sektor gecersiz!")       # Gecersiz sektor ise hata yazisini yazdirma
+
+    def zam_hakki(self):          #Zam hakki metodunu oluşturma ve zam oranini hesaplama
         try:
-            if self.__tecrube < 2:
-                return 0
-            elif 2 <= self.__tecrube <= 4 and self.__maas < 15000:
-                yeni_maas = self.__maas * self.__tecrube / 100
-            elif self.__tecrube > 4 and self.__maas < 25000:
-                yeni_maas = (self.__maas * self.__tecrube) / 200
+            tecrube = self.get_tecrube()
+            maas = self.get_maas()
+            zam_orani = 0  # Baslangıc değeri
+    #Tecrube , maas  degerlerini al
+
+            if tecrube < 24:
+                zam_orani =0
+            elif 24 <= tecrube <= 48 and maas < 15000:
+                zam_orani = maas % tecrube
+            elif tecrube > 48 and maas < 25000:
+                zam_orani = (maas % tecrube) / 2
+
+            if zam_orani == 0:
+                yeni_maas = maas
             else:
-                yeni_maas = self.__maas
+                yeni_maas = maas + ((zam_orani * maas) / 100)  # Zam oranini maasa ekleyerek yeni maas degerini olusturma
 
-            if yeni_maas == self.__maas:
-                self.__maas = yeni_maas
-
+            yeni_maas = round(yeni_maas, 2)   # Yeni maas degerini 2 ondalık basamaga yuvarlama
             return yeni_maas
 
         except Exception as e:
-            return f"Hata: {str(e)}"
+            return f"Hata: {str(e)}"   #Hata durumunda mesaji yazdirma
 
-        
-    def __str__(self):
+    def __str__(self):       # Gerekli degiskenleri yazdirma
         ad_soyad = f"Ad: {self.get_ad()}\nSoyad: {self.get_soyad()}"
-        
-        tecrube = f"Tecrube: {self.__tecrube} ay"
-        yeni_maas = f"Yeni Maaş: {self.zam_hakki()} TL"
-        return f"{ad_soyad}\\n{tecrube}\n{yeni_maas}"
+        return f"{ad_soyad}\nTecrube: {self.get_tecrube()} ay\nYeni Maas: {self.zam_hakki():.2f} TL"
