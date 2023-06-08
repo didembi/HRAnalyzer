@@ -14,14 +14,14 @@ class Insan:
 
     def get_ad(self):
         return self.__ad
-    def set_ad(self,yeni_ad):
-        self.__ad = yeni_ad
+    def set_ad(self,ad):
+        self.__ad = ad
     
     def get_soyad(self):
         return self.__soyad
     def set_soyad(self,yeni_soyad):
         self.__soyad = yeni_soyad
-    
+
     def get_yas(self):
         return self.__yas
     def set_yas(self,yeni_yas):
