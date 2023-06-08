@@ -14,9 +14,9 @@ try:
     print(insan2)
     
 #Issiz nesnelerini olusturma
-    issiz1 = Issiz(14563287496,"Maria","Garcia","48","Kadin","Alman",{ "mavi yaka": 14, "beyaz yaka": 9, "yönetici": 7 })
-    issiz2 = Issiz(96385214714,"Abidin","Güclü","33","Erkek","Türk",{ "mavi yaka": 7, "beyaz yaka": 4, "yönetici": 0 })
-    issiz3 = Issiz(75315984256,"Berke","Uzak","30","Erkek","Türk",{ "mavi yaka": 7, "beyaz yaka": 0, "yönetici": 0})
+    issiz1 = Issiz(14563287496,"Maria","Garcia","48","Kadin","Alman",{ "mavi yaka": 5, "beyaz yaka": 9, "yönetici": 9 })
+    issiz2 = Issiz(96385214714,"Abidin","Güclü","33","Erkek","Türk",{ "mavi yaka": 0, "beyaz yaka": 4, "yönetici": 0 })
+    issiz3 = Issiz(75315984256,"Berke","Uzak","30","Erkek","Türk",{ "mavi yaka": 7, "beyaz yaka": 3, "yönetici": 0})
     print("\nIssiz sinifi")
     print(issiz1)
     print(issiz2)
