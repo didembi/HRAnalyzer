@@ -9,26 +9,28 @@ class BeyazYaka(Calisan):        # Ust sinifin init metodunu cagirarak tamel deg
         return self.__tesvik_primi
     def set_tesvik_primi(self, tesvik_primi):
         self.__tesvik_primi = tesvik_primi
+  
+    def zam_hakki(self):   #Zam hakki metodunu oluşturma ve zammi hesaplama
+        try:  
+            tecrube = self.get_tecrube()
+            maas = self.get_maas()
+            tesvik_primi = self.get_tesvik_primi()
+    #Tecrube , maas , tesvik primi degerlerini al
 
-    def zam_hakki(self):
-        try:
-            if self.get_tecrube() < 2:
-                yeni_maas = self.get_maas() + self.get_tesvik_primi()
-            elif 2 <= self.get_tecrube() <= 4 and self.get_maas() < 15000:
-                yeni_maas = (self.get_maas() % self.get_tecrube()) * 5 + self.get_tesvik_primi()
-            elif self.get_tecrube() > 4 and self.get_maas() < 25000:
-                yeni_maas = (self.get_maas() % self.get_tecrube()) * 4 + self.get_tesvik_primi()
+            if tecrube < 24:   # Tecrubeye gore maasın ne kadar artacagını hesaplama
+                yeni_maas = maas + tesvik_primi
+            elif 24 <= tecrube <= 48 and maas < 15000:
+                yeni_maas = maas+((maas %tecrube)*5 + tesvik_primi)
+            elif tecrube > 48 and maas < 25000:
+                yeni_maas = maas+((maas % tecrube)*4 + tesvik_primi)
             else:
-                yeni_maas = self.get_maas()
-            
-            if yeni_maas == self.get_maas():
-                return self.get_maas()
-            else:
-                self.set_maas(yeni_maas)
-                return yeni_maas
-        except Exception as e:
-            return f"Hata: {str(e)}"
+                yeni_maas= maas
     
-    def __str__(self):
+            return yeni_maas
+        
+        except Exception as e:
+            return f"Hata: {str(e)}"   #Hata durumunda mesaji yazdirma
+
+    def __str__(self):   # Gerekli degiskenleri yazdirma
         ad_soyad = f"Ad: {self.get_ad()}\nSoyad: {self.get_soyad()}"
-        return f"{ad_soyad}\nTecrube: {self.get_tecrube()} ay\nYeni Maas: {self.zam_hakki()} TL"
+        return f"{ad_soyad}\nTecrube: {self.get_tecrube()} ay\nYeni Maas: {self.zam_hakki():.2f} TL"
